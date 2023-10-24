@@ -1,4 +1,6 @@
-﻿namespace Editor_iOS_Bug {
+﻿using Editor_iOS_Bug.Controls;
+
+namespace Editor_iOS_Bug {
     public partial class App : Application {
         public App() {
             InitializeComponent();
@@ -7,19 +9,26 @@
 
             VerticalStackLayout vert = new();
             (MainPage as ContentPage).Content = vert;
-            
-            Border border = new();
-            border.StrokeThickness = 4;
-            border.BackgroundColor = Colors.DarkBlue;
-            border.Stroke = Colors.Red;
-            border.Padding = 10;
-            vert.Children.Add(border);
 
-            Editor editor = new();
+            //Border border = new();
+            //border.StrokeThickness = 4;
+            //border.BackgroundColor = Colors.DarkBlue;
+            //border.Stroke = Colors.Red;
+            //border.Padding = 10;
+            //vert.Children.Add(border);
+
+            ContentView contentView = new();
+            
+            MyEditor editor = new();
             editor.BackgroundColor = Colors.White;
-            editor.AutoSize = EditorAutoSizeOption.TextChanges;
+           // editor.AutoSize = EditorAutoSizeOption.TextChanges;
             editor.MaximumHeightRequest = 200;
-            border.Content = editor;
+            // border.Content = editor;
+            contentView.Content = editor;
+            contentView.BackgroundColor = Colors.DarkBlue;
+            contentView.Padding = new Thickness(10);
+
+            vert.Children.Add(contentView);
 
             Label testLabel = new Label();
             string bugText = "Editor iOS Bug (.NET 7):\n- Editor does not autoscroll downward as you fill the Editor with text (new lines past max height go down off screen)\n- Editor does not scroll with click and drag once past maxHeight in size.\n- There is a frame lag after resizing Editor and before resizing the parent so the Editor goes 'out of bounds' of its parent momentarily each time it grows vertically.";
